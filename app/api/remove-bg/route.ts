@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export const runtime = 'edge';
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest, { env }: any) {
   try {
     const formData = await request.formData();
     const image = formData.get('image') as File;
@@ -11,8 +11,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'No image provided' }, { status: 400 });
     }
 
-    // @ts-ignore - Cloudflare Pages env
-    const apiKey = process.env.REMOVEBG_API_KEY || '';
+    const apiKey = env?.REMOVEBG_API_KEY || 'V5DvvAqBdTsX2x4okgAWFmb9';
     
     if (!apiKey) {
       return NextResponse.json({ error: 'API key not configured' }, { status: 500 });
